@@ -1,7 +1,7 @@
 //
 // Karl Goeltner
 // 917006087
-// ECS 36C - 05/04/2020
+// ECS 36C - 05/07/2020
 //
 // test_multiset.cc - Unit tester for multiset.h
 //
@@ -129,7 +129,31 @@ TEST(Multiset, FloorCeilRemoval) {
   EXPECT_THROW(mset.Ceil(1000), std::exception);
 }
 
-// 5) Check Remove & Contains after insertions
+// 5) Check Contains after insertions
+TEST(Multiset, CheckContains) {
+  Multiset<int> mset;
+
+  // Insert 1 key, check true contained within Contains()
+  mset.Insert(45);
+  EXPECT_EQ(mset.Contains(45), true);
+
+  // Insert 1 key, check true contained within Contains()
+  mset.Insert(50);
+  mset.Insert(40);
+  mset.Insert(93);
+  mset.Insert(19);
+
+  EXPECT_EQ(mset.Contains(19), true);
+  EXPECT_EQ(mset.Contains(40), true);
+  EXPECT_EQ(mset.Contains(93), true);
+  EXPECT_EQ(mset.Contains(50), true);
+
+  // Insert 1 key, check false when trying to get non-existent key
+  mset.Insert(19);
+  EXPECT_EQ(mset.Contains(10), false);
+}
+
+// 6) Check Remove & Contains after insertions
 TEST(Multiset, RemoveContains) {
   Multiset<int> mset;
 
@@ -162,7 +186,7 @@ TEST(Multiset, RemoveContains) {
   EXPECT_THROW(mset.Remove(1), std::exception);
 }
 
-// 6) Check Max, Min, Contains after insertions & removals
+// 7) Check Max, Min, Contains after insertions & removals
 TEST(Multiset, MaxMin) {
   Multiset<int> mset;
 
@@ -234,7 +258,7 @@ TEST(Multiset, MaxMin) {
   EXPECT_THROW(mset.Min(), std::exception);
 }
 
-// 7) Check Remove, Count, Floor, Ceil, Max, Min errors
+// 8) Check Remove, Count, Floor, Ceil, Max, Min errors
 TEST(Multiset, ErrorCheck) {
   Multiset<int> mset;
 
@@ -268,7 +292,7 @@ TEST(Multiset, ErrorCheck) {
   EXPECT_THROW(mset.Min(), std::exception);
 }
 
-// 8) Check Count after insertions & removals
+// 9) Check Count after insertions & removals
 TEST(Multiset, MultipleCount) {
   Multiset<int> mset;
 
@@ -325,7 +349,7 @@ TEST(Multiset, MultipleCount) {
   EXPECT_THROW(mset.Count(10), std::exception);
 }
 
-// 9) Check Count, Contains, Max, Min after insertions & removals
+// 10) Check Count, Contains, Max, Min after insertions & removals
 TEST(Multiset, RandomCount) {
   Multiset<int> mset;
 
@@ -360,7 +384,7 @@ TEST(Multiset, RandomCount) {
   EXPECT_EQ(mset.Contains(5), true);
 }
 
-// 10) Check Floor, Ceil, Count, Contains,
+// 11) Check Floor, Ceil, Count, Contains,
 // Max, Min after ordered insertions & removals
 TEST(Multiset, OrderedDuplicates) {
   Multiset<int> mset;

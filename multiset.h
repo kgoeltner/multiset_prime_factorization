@@ -1,7 +1,7 @@
 //
 // Karl Goeltner
 // 917006087
-// ECS 36C - 05/04/2020
+// ECS 36C - 05/07/2020
 //
 // multiset.h - Implementation of the multiset ADT using a BST
 // Public API: Size, Empty, Insert, Remove, Contains,
@@ -224,7 +224,7 @@ class Multiset {
     EmptyError();
 
     // ERROR: throw exception if minimum node is greater than input key
-    if (Min() >= key)
+    if (Min() > key)
       throw std::out_of_range("Invalid key");
 
     // If node is NIL
@@ -258,7 +258,7 @@ class Multiset {
     EmptyError();
 
     // ERROR: throw exception if maximum node is less than input key
-    if (Max() <= key)
+    if (Max() < key)
       throw std::out_of_range("Invalid key");
 
     // If node is NIL

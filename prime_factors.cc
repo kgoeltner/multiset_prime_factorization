@@ -1,7 +1,7 @@
 //
 // Karl Goeltner
 // 917006087
-// ECS 36C - 05/04/2020
+// ECS 36C - 05/07/2020
 //
 // prime_factors.cc - Program that performs trivial prime
 // factorization on a number and prints output based on
@@ -39,11 +39,17 @@ Multiset<int> primeFactors(unsigned int number) {
 
   // Check if number is a prime factor itself
   if (mset.Size() == 1) {
-    std::cerr << "No prime factors" << std::endl;
-    exit(1);
+    std::cout << "No prime factors" << std::endl;
+    exit(0);
   }
 
   return mset;
+}
+
+// printNoMatch - print no match if prime factor not found for near
+void printNoMatch() {
+  std::cout << "No match" << std::endl;
+  exit(0);
 }
 
 // checkNear - error check before calling printNear to ensure argument validity
@@ -73,8 +79,7 @@ void printNear(unsigned int number, char *prime) {
     try {
       val = mset.Ceil(val + 1);
     } catch (const std::out_of_range &e) {
-      std::cerr << "No match" << std::endl;
-      exit(1);
+      printNoMatch();
     }
     std::cout << val << " (x" << mset.Count(val) << ")" << std::endl;
   // Else if - sign
@@ -83,8 +88,7 @@ void printNear(unsigned int number, char *prime) {
     try {
       val = mset.Floor(-(val + 1));
     } catch (const std::out_of_range &e) {
-      std::cerr << "No match" << std::endl;
-      exit(1);
+      printNoMatch();
     }
     std::cout << val << " (x" << mset.Count(val) << ")" << std::endl;
   // Else if prime factor ITSELF
@@ -92,7 +96,7 @@ void printNear(unsigned int number, char *prime) {
     std::cout << val << " (x" << mset.Count(val) << ")" << std::endl;
   // Otherwise, NO MATCH
   } else {
-    std::cerr << "No match" << std::endl;
+    printNoMatch();
   }
 }
 
@@ -117,18 +121,22 @@ void printMax(unsigned int number) {
 // printAll - prints all the prime factors and their count in ascending order
 void printAll(unsigned int number) {
   Multiset<int> mset = primeFactors(number);
-  int factor, quantity;
+  // Initialize to lowest prime factor
+  int factor = mset.Min();
+  int quantity = 0;
 
-  // Loop until all prime factors are printed out
-  while (mset.Size()) {
-    factor = mset.Min();
+  // Loop until all unique prime factors are printed out
+  for (unsigned int i = 0; i < mset.Size(); i++) {
+    // Attain the next highest unique prime & quantity
+    factor = mset.Ceil(factor);
     quantity = mset.Count(factor);
 
     std::cout << factor << " (x" << quantity << "), ";
 
-    // Remove duplicate prime factors from multiset
-    for (int i = 0; i < quantity; i++)
-      mset.Remove(factor);
+    // Increment factor + 1 for Ceil
+    // Increment i to next unique prime for size track
+    factor++;
+    i += quantity - 1;
   }
 
   std::cout << std::endl;
@@ -151,8 +159,8 @@ int main(int argc, char *argv[]) {
 
   // ERROR: Check if number is 0 or 1
   if (atoi(argv[1]) == 0 || atoi(argv[1]) == 1) {
-    std::cerr << "No prime factors" << std::endl;
-    exit(1);
+    std::cout << "No prime factors" << std::endl;
+    exit(0);
   }
 
   // Convert command to string to execute operand

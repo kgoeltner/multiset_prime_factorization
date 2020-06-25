@@ -1,6 +1,6 @@
 # Karl Goeltner
 # 917006087
-# ECS 36C - 05/05/2020
+# ECS 36C - 05/07/2020
 CXX = g++
 CXXFLAGS += -std=c++11 -Wall -Werror
 
